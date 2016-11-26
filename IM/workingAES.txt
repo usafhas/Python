@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Aug 22 19:05:10 2015
+
+@author: usafhas
+
+
+"""
+enc = AESCypher.AESCipher(key)
+
+
+k = enc.encrypt("Hello world how are you, I am doing well")
+
+print k
+C/7lYMCNPov3hJ/I/j2LSS1iDGWUsLPeQCIcwqc/ZnujsL21pf9dQTuAT5akruExFne/OsxW9ZHHEsymDdGASw==
+
+d = enc.decrypt(k)
+
+print d
+Hello world how are you, I am doing well
+
+Hello world how are you, I am doing well
+C/7lYMCNPov3hJ/I/j2LSS1iDGWUsLPeQCIcwqc/ZnujsL21pf9dQTuAT5akruExFne/OsxW9ZHHEsymDdGASw==
+Swords101How about them apples
+hellow World
+Hello world how are you, I am doing well
+C/7lYMCNPov3hJ/I/j2LSS1iDGWUsLPeQCIcwqc/ZnujsL21pf9dQTuAT5akruExFne/OsxW9ZHHEsymDdGASw==
+Swords101How about them apples
+hellow World
+Hello world how are you, I am doing well
+C/7lYMCNPov3hJ/I/j2LSS1iDGWUsLPeQCIcwqc/ZnujsL21pf9dQTuAT5akruExFne/OsxW9ZHHEsymDdGASw==
+Swords101How about them apples
+hellow World
+Hello world how are you, I am doing well
+C/7lYMCNPov3hJ/I/j2LSS1iDGWUsLPeQCIcwqc/ZnujsL21pf9dQTuAT5akruExFne/OsxW9ZHHEsymDdGASw==
+Swords101How about them apples
+hellow World

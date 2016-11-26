@@ -1,0 +1,57 @@
+//Arduino powered servo with raspberry pi
+//when raspberry pi pin is high, then the servo will rotate
+//when a second pin is high then the servo will rotate opposite
+//gm8 motor
+//pin 17 RPI LEFT
+//pin 27 RPI Right
+//pin 4 RPI BOND
+
+#include <Servo.h> 
+
+Servo myservo;
+
+int pos = 0;
+int left = 3; //pin for left
+int right = 4; //pin for right
+int bond = 5; //pin for bond
+
+void setup()
+{
+	myservo.attach(9) //Servo pin 9
+	pinMode(left, INPUT);
+	pinMode(right, INPUT);
+	pinMode(bond, INPUT);
+}
+
+void loop()
+{
+
+while(digitalRead(bond) == HIGH){
+	for(pos = 0; pos <180; pos += 1)
+	{
+		myservo.write(pos);
+		delay(15);
+	}
+	for(pos = 180; pos>=1; pos -=1)
+	{
+		myservo.write(pos);
+		delay(15);
+	}
+}//end bond
+
+while(digitalRead(left) == HIGH){
+	if(pos <= 180 && pos >= 0){
+	myservo.write(pos);
+	pos -= 1;
+	}
+
+}//end left
+
+while(digitalRead(right) == HIGH){
+	if(pos >= 0 && pos <= 180){
+	myservo.write(pos);
+	pos += 1;
+	}
+
+}//end left
+}

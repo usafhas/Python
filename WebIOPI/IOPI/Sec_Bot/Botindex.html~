@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content = "height = device-height, width = 420, user-scalable = no" /> 
+	<title>SecBot</title>
+	<script type="text/javascript" src="/webiopi.js"></script>
+	<script type="text/javascript">
+	function init() {
+		var button;
+		
+		// create a "LED" labeled button for GPIO 22
+                button = webiopi().createGPIOButton(22, "LED");
+                $("#LED").append(button); // append button to content div
+
+		// create a button which output a bit sequence on GPIO 22 with a 100ms period 
+                button = webiopi().createSequenceButton("sos", "S.O.S", 22, 100, "01010100110011001100101010");
+                $("#LED").append(button); // append button to content div
+
+		button = webiopi().createButton("bond", "Bond 007", Bond, Bond);
+		$("#Servo").append(button);
+
+		 // you can also create a button which calls a different function for mouse down and up events
+                button = webiopi().createButton("left", "RIGHT", lmousedown, lmouseup);
+                $("#Servo").append(button);
+
+		button = webiopi().createButton("right", "LEFT", rmousedown, rmouseup);
+                $("#Servo").append(button);
+//----------------------------------------------------------------------------------------
+			
+		button = webiopi().createButton("bt_up", "/\\", go_forward, stop);
+		$("#up").append(button);
+		
+		button = webiopi().createButton("bt_left", "<", turn_left, stop);
+		$("#middle").append(button);
+		
+		button = webiopi().createButton("bt_stop", "X", stop);
+		$("#middle").append(button);
+		
+		button = webiopi().createButton("bt_right", ">", turn_right, stop);
+		$("#middle").append(button);
+		
+		button = webiopi().createButton("bt_down", "\\/", go_backward, stop);
+		$("#down").append(button);
+		
+		webiopi().refreshGPIO(true);
+	}
+	
+	function go_forward() {
+		
+		webiopi().digitalWrite(22, 1);
+	}
+		
+	function go_backward() {
+		webiopi().digitalWrite(22, 1);
+	}
+		
+	function turn_right() {
+		webiopi().digitalWrite(22, 1);
+	}
+		
+	function turn_left() {
+		webiopi().digitalWrite(22, 1);
+	}
+		
+	function stop() {
+		webiopi().digitalWrite(22, 0);
+		webiopi().digitalWrite(22, 0);
+		webiopi().digitalWrite(22, 0);
+		webiopi().digitalWrite(22, 0);
+	}
+
+	function lmousedown() {
+                webiopi().digitalWrite(17, 1);
+		
+        }
+        
+        function lmouseup() {
+                webiopi().digitalWrite(17, 0);
+        }
+
+	function rmousedown() {
+                webiopi().digitalWrite(24, 1);
+        }
+        
+        function rmouseup() {
+                webiopi().digitalWrite(24, 0);
+        }
+
+	function Bond(){
+	var sequence = "11111110" ;
+	webiopi().outputSequence(4, 1000, sequence);
+	
+	}
+        
+        function outputSequence() {
+                var sequence = "01010100110011001100101010" // S.O.S. morse code or whatever you want
+                // output sequence on gpio 22 with a 100ms period
+                webiopi().outputSequence(22, 100, sequence, sequenceCallback);
+        }
+        
+        function sequenceCallback(gpio, data) {
+                alert("sequence on " + gpio + " finished with " + data);
+        }
+	
+	webiopi().ready(init);
+		
+	</script>
+	<style type="text/css">
+		button {
+			margin: 5px 5px 5px 5px;
+			width: 50px;
+			height: 50px;
+			font-size: 24pt;
+			font-weight: bold;
+			color: black;
+		}
+	</style>
+</head>
+<body>
+	<div id="content" align="center">
+		<div id="LED"></div>
+		<div id="Servo"></div>
+		<img width="320" height="240" src="http://192.168.1.141:8080/?action=stream"><br/>
+		<div id="up"></div>
+		<div id="middle"></div>
+		<div id="down"></div>
+	</div>
+</body>
+</html>

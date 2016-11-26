@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content = "height = device-height, width = 420, user-scalable = no" /> 
+	<title>SecBot</title>
+	<script type="text/javascript" src="/webiopi.js"></script>
+	<script type="text/javascript">
+	function init() {
+		var button;
+		var button2;
+		
+		// create a "LED" labeled button for GPIO 22
+                button = webiopi().createGPIOButton(22, "LED");
+                $("#LED").append(button); // append button to content div
+
+		// create a button which output a bit sequence on GPIO 22 with a 100ms period 
+                button = webiopi().createSequenceButton("sos", "S.O.S", 22, 100, "01010100110011001100101010");
+                $("#LED").append(button); // append button to content div
+
+		 // you can also create a button which calls a different function for mouse down and up events
+                button = webiopi().createButton("left", "RIGHT", lmousedown, lmouseup);
+                $("#LED").append(button);
+
+		button = webiopi().createButton("right", "LEFT", rmousedown, rmouseup);
+                $("#LED").append(button);
+//----------------------------------------------------------------------------------------
+			
+		button2 = webiopi().createButton("bt_up", "/\\", go_forward, stop);
+		$("#up").append(button2);
+		
+		button2 = webiopi().createButton("bt_left", "<", turn_left, stop);
+		$("#middle").append(button2);
+		
+		button2 = webiopi().createButton("bt_stop", "X", stop);
+		$("#middle").append(button2);
+		
+		button2 = webiopi().createButton("bt_right", ">", turn_right, stop);
+		$("#middle").append(button2);
+		
+		button2 = webiopi().createButton("bt_down", "\\/", go_backward, stop);
+		$("#down").append(button2);
+		
+		webiopi().refreshGPIO(true);
+	}
+	
+	function go_forward() {
+		
+		webiopi().digitalWrite(4, 1);
+	}
+		
+	function go_backward() {
+		webiopi().digitalWrite(27, 1);
+	}
+		
+	function turn_right() {
+		webiopi().digitalWrite(18, 1);
+	}
+		
+	function turn_left() {
+		webiopi().digitalWrite(23, 1);
+	}
+		
+	function stop() {
+		webiopi().digitalWrite(4, 0);
+		webiopi().digitalWrite(27, 0);
+		webiopi().digitalWrite(23, 0);
+		webiopi().digitalWrite(18, 0);
+	}
+
+	function lmousedown() {
+                webiopi().digitalWrite(17, 1);
+		
+        }
+        
+        function lmouseup() {
+                webiopi().digitalWrite(17, 0);
+        }
+
+	function rmousedown() {
+                webiopi().digitalWrite(24, 1);
+        }
+        
+        function rmouseup() {
+                webiopi().digitalWrite(24, 0);
+        }
+
+	
+        
+        function outputSequence() {
+                var sequence = "01010100110011001100101010" // S.O.S. morse code or whatever you want
+                // output sequence on gpio 22 with a 100ms period
+                webiopi().outputSequence(22, 100, sequence, sequenceCallback);
+        }
+        
+        function sequenceCallback(gpio, data) {
+                alert("sequence on " + gpio + " finished with " + data);
+        }
+	
+	webiopi().ready(init);
+		
+	</script>
+	<style type="text/css">
+		button {
+			margin: 5px 5px 5px 5px;
+			width: 80px;
+			height: 50px
+			font-size: 24pt;
+			font-weight: bold;
+			color: maroon;
+			opacity: 0.4;
+		}
+		button2 {
+			margin: 5px 5px 5px 5px;
+			width: 50px;
+			height: 50px;
+			font-size: 24pt;
+			font-weight: bold;
+			color: transparent;
+		}
+
+		.image { 
+   position: relative; 
+   width: 100%; /* for IE 6 */
+}
+
+spant { 
+	position: absolute; 
+   top: 1px; 
+   left: 0px; 
+   width: 100%;
+   color: white; 
+   font: bold 24px/45px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   padding: 10px; 
+}
+span { 
+	position: absolute; 
+   top: 340px; 
+   left: 130px; 
+   width: 100%;
+   color: white; 
+   font: bold 24px/45px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   padding: 10px; 
+}
+
+		
+	</style>
+</head>
+<body>
+	
+	<div class="image" align="center">
+
+		<img width="640" height="480" src="http://192.168.1.141:8080/mjpg"><br/>
+		
+	<spant>	
+	<div id="LED"></div>
+	</spant>
+		<span>
+		<div id="up"></div>
+		<div id="middle"></div>
+		<div id="down"></div>
+		</span>
+	</div>
+	
+	
+</body>
+</html>
