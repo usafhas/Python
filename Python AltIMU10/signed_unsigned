@@ -1,0 +1,8 @@
+16 bit - max = 65535
+16 bit convert = 32768
+
+24 bits is 0 to 16,777,215 (0xFFFFFF in hexadecimal).
+8388608 = 0x800000
+
+2,147,483,647 (or hexadecimal 7FFF,FFFF16)
+1073741824  0x40000000
